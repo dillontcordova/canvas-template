@@ -1,0 +1,43 @@
+﻿{"frames": [
+
+{
+	"filename": "Hero0000",
+	"frame": {"x":0,"y":0,"w":10,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+}
+,{
+	"filename": "Hero0001",
+	"frame": {"x":10,"y":0,"w":7,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+}
+,{
+	"filename": "Hero0002",
+	"frame": {"x":17,"y":0,"w":4,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+}
+,{
+	"filename": "Hero0003",
+	"frame": {"x":21,"y":0,"w":7,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+}],
+"meta": {
+	"app": "Adobe Animate",
+	"version": "18.0.2.126",
+	"image": "coinTest.png",
+	"format": "RGBA8888",
+	"size": {"w":38,"h":10},
+	"scale": "1"
+}
+}
