@@ -1,3 +1,6 @@
+import View from './view';
+import ActorController from './actorController';
+import ViewController from './viewController';
 export default class Actor {
 
     constructor( x, y, w, h ){
@@ -5,6 +8,9 @@ export default class Actor {
         this._y = y;
         this._width = w;
         this._height = h;
+
+        // ActorController.addActor(this);
+        // ViewController.addView(this);
     }
 
     get x(){return this._x;}

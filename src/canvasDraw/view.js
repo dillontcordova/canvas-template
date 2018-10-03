@@ -1,19 +1,15 @@
-
-
 export default class View {
 
     constructor( _model, _sheetFilePath, _sheetMetaPath ){
-        this.curAnimationFrame = 0;
-        this.spriteWidth = null;
-        this.curAnimationClip = 0;
-        this.spriteHeight = null;
-        this.animationClips = null;
-        this.model = _model;
-
-        this.sheetFilePath = _sheetFilePath;
-        this.sheetMetaPath = _sheetMetaPath;
-        this.imageSheet = null;
-        this.sheetMeta = null;
+        this.curAnimationFrame  = 0;
+        this.spriteWidth        = null;
+        this.spriteHeight       = null;
+        this.animationClips     = null;
+        this.imageSheet         = null;
+        this.sheetMeta          = null;
+        this.model              = _model;
+        this.sheetFilePath      = _sheetFilePath;
+        this.sheetMetaPath      = _sheetMetaPath;
     }
 
     render() {
@@ -33,10 +29,11 @@ export default class View {
     }
 
     drawCurrentFrame = ( _x, _y, _width, _height ) => {
-        const sizes = this.sheetMeta.frames[0].frame;
-        View.ctx.drawImage  (this.imageSheet,
-                            (this.curAnimationFrame * sizes.w), (this.curAnimationClip * sizes.h), sizes.w, sizes.h,
-                            _x, _y, _width, _height);
+        const sizes = this.sheetMeta.frames[this.curAnimationFrame].frame;
+        View.ctx.drawImage( this.imageSheet,
+                            sizes.x, sizes.y, sizes.w, sizes.h,
+                            _x, _y, _width, _height
+                            );
         this.nextFrame();
     }
 
@@ -45,11 +42,6 @@ export default class View {
         if( this.curAnimationFrame >= this.sheetMeta.frames.length ){
             this.curAnimationFrame = 0;
         }
-    };
-
-    setAnimationClip( _animationClipNum ){
-        this.curAnimationClip    = _animationClipNum;
-        this.curAnimationFrame   = 0;
     };
 
     readTextFile = (file, callback) => {

@@ -1,29 +1,46 @@
 import View from './view';
+let instance = null;
 
 class ViewController {
 
+    static viewList     = [];
+    static ctx          = null;
+    static canvasWidth  = null;
+    static canvasHeight = null;
+    static isLoaded     = false;
+
     constructor( _ctx, _canvasWidth, _canvasHeight ){
-        this.viewList       = [];
-        this.ctx            = _ctx;
-        this.isLoaded       = false;
-        this.canvasWidth    = _canvasWidth;
-        this.canvasHeight   = _canvasHeight;
-        View.ctx            = View.ctx || _ctx;
-        View.canvasWidth    = View.canvasWidth || _canvasWidth;
-        View.canvasHeight   = View.canvasHeight || _canvasHeight;
-    }
- 
-    addView( _actor, _fileName, _metaPath){
-        this.viewList.push( new View(_actor, _fileName, _metaPath) );
+        if( instance ){throw new Error('Can not instantiate a singleton class twice');}
+        instance                    = this;
+
+        ViewController.ctx          = _ctx;
+        ViewController.isLoaded     = false;
+        ViewController.canvasWidth  = _canvasWidth;
+        ViewController.canvasHeight = _canvasHeight;
+        View.ctx                    = View.ctx || _ctx;
+        View.canvasWidth            = View.canvasWidth || _canvasWidth;
+        View.canvasHeight           = View.canvasHeight || _canvasHeight;
+
     }
 
-    load( cb ){
-        return Promise.all( this.viewList.map((view) => {
+    static getInstance = () => {
+        if( !instance ){
+		    return new ViewController(arguments);
+        }
+        return instance;
+    }
+ 
+    static addView( _actor, _fileName, _metaPath){
+        ViewController.viewList.push( new View(_actor, _fileName, _metaPath) );
+    }
+
+    static load( cb ){
+        return Promise.all( ViewController.viewList.map((view) => {
             return view.loadImage();
         }))
         .then((data) => {
-            this.ctx.clearRect( 0, 0, this.canvasWidth, this.canvasHeight );
-            this.isLoaded = true;
+            ViewController.ctx.clearRect( 0, 0, ViewController.canvasWidth, ViewController.canvasHeight );
+            ViewController.isLoaded = true;
             cb( data );
         })
         .catch((e) => {
@@ -31,14 +48,13 @@ class ViewController {
         })
     }
 
-    render() {
-        if( !this.isLoaded ){
+    static render() {
+        if( !ViewController.isLoaded ){
             throw new Error('need to load images first');
         }
-
-        this.ctx.clearRect( 0, 0, this.canvasWidth, this.canvasHeight );
-        for( let i = this.viewList.length - 1; i >= 0; i-- ){
-            this.viewList[i].render();
+        ViewController.ctx.clearRect( 0, 0, ViewController.canvasWidth, ViewController.canvasHeight );
+        for( let i = ViewController.viewList.length - 1; i >= 0; i-- ){
+            ViewController.viewList[i].render();
         }
     }
 }

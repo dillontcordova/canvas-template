@@ -56,7 +56,7 @@ class Canvas extends Component {
     
     renderLoop = () => {
         if( this.isRunning && !this.isPaused ){
-            this.viewCtrl.render();
+            ViewController.render();
             
             this.requestFrameToRenderOn( this.renderLoop );
         }
@@ -66,10 +66,12 @@ class Canvas extends Component {
         const canvas= document.getElementById("game");
         this.ctx    = canvas.getContext("2d");
 
-        this.viewCtrl = new ViewController( this.ctx, this.width, this.height );
-        this.viewCtrl.addView( new Actor(0,0,7,10), './coinTest.png', `${window.location.href}/coinTest.json` );
-        this.viewCtrl.load( (data) => {
-            debugger;
+        new ViewController( this.ctx, this.width, this.height );
+        // new ActorController( this.ctx, this.width, this.height );
+        debugger;
+
+        ViewController.addView( new Actor(0,0,10,10), './coinTest.png', `${window.location.href}/coinTest.json` );//TODO: do this on the outside
+        ViewController.load( (data) => {
             this.renderLoop();
             this.calcLoop();
         });
@@ -79,6 +81,10 @@ class Canvas extends Component {
         return (
             <section>
                 {this.canvas}
+                <video controls="controls" poster="http://www.html5videoplayer.net/poster/toystory.jpg" width="640" height="360">
+                    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type="video/mp4"/>
+                    <img alt="HTML5 MP4/H.264 Video" src="http://www.html5videoplayer.net/poster/toystory.jpg" width="640" height="360" title="No video playback capabilities, please download the video below"/>
+                </video>
             </section>
         );
     }
