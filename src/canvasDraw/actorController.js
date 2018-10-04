@@ -1,4 +1,3 @@
-import Actor from './actor';
 let instance = null;
 
 class ActorController {
@@ -13,7 +12,7 @@ class ActorController {
 
     static getInstance = () => {
         if( !instance ){
-		    return new ActorController(arguments);
+		    return new ActorController(...arguments);
         }
         return instance;
     }

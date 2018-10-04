@@ -1,17 +1,20 @@
-import View from './view';
 import ActorController from './actorController';
 import ViewController from './viewController';
 export default class Actor {
 
-    constructor( x, y, w, h ){
-        this._x = x;
-        this._y = y;
+    constructor( x, y, w, h, gameObject ){
+        this._x     = x;
+        this._y     = y;
         this._width = w;
-        this._height = h;
+        this._height= h;
 
-        // ActorController.addActor(this);
-        // ViewController.addView(this);
+        ActorController.addActor(this);
+        ViewController.addView(this, gameObject);
     }
+
+    tick = (_actors) => {
+        // console.log('tick');
+	};
 
     get x(){return this._x;}
     set x( _x ){this._x = _x;}

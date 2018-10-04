@@ -38,6 +38,8 @@
 	"image": "coinTest.png",
 	"format": "RGBA8888",
 	"size": {"w":40,"h":10},
-	"scale": "1"
+	"scale": "1",
+	"startingX": 0,
+	"startingY": 0
 }
 }

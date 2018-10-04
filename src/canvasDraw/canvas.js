@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ViewController from './viewController';
-import Actor from './actor';
+import ActorController from './actorController';
+import Input from './input';
+import Game from './Game';
 
 class Canvas extends Component {
 
@@ -26,7 +28,6 @@ class Canvas extends Component {
         this.height             = props.height      || this.defaults.height;
         this.isPaused           = props.isPaused    || this.defaults.isPaused;
         this.isRunning          = props.isRunning   || this.defaults.isRunning;
-        this.canvas             = <canvas id="game" width={this.width} height={this.height}></canvas>;
     }
 
     defaultRenderFunction = (duration) => {
@@ -47,10 +48,8 @@ class Canvas extends Component {
 
     calcLoop = () => {
         if( this.isRunning ){
-            // ActorController.tick();
-            // PropsController.tick();
-            // LevelController.tick();
-            setTimeout( this.CalcLoop, this.frameCalcDuration );
+            ActorController.tick();
+            setTimeout( this.calcLoop, this.frameCalcDuration );
         }
     };
     
@@ -66,12 +65,12 @@ class Canvas extends Component {
         const canvas= document.getElementById("game");
         this.ctx    = canvas.getContext("2d");
 
+        new Game( canvas , this.ctx );
+        new Input( canvas );
         new ViewController( this.ctx, this.width, this.height );
-        // new ActorController( this.ctx, this.width, this.height );
-        debugger;
+        new ActorController( /*input*/ );
 
-        ViewController.addView( new Actor(0,0,10,10), './coinTest.png', `${window.location.href}/coinTest.json` );//TODO: do this on the outside
-        ViewController.load( (data) => {
+        Game.createGameObjects((err, data) => {
             this.renderLoop();
             this.calcLoop();
         });
@@ -79,13 +78,9 @@ class Canvas extends Component {
 
     render() {
         return (
-            <section>
-                {this.canvas}
-                <video controls="controls" poster="http://www.html5videoplayer.net/poster/toystory.jpg" width="640" height="360">
-                    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type="video/mp4"/>
-                    <img alt="HTML5 MP4/H.264 Video" src="http://www.html5videoplayer.net/poster/toystory.jpg" width="640" height="360" title="No video playback capabilities, please download the video below"/>
-                </video>
-            </section>
+            <div id="canvas-container">
+                <canvas id="game"></canvas>
+            </div>
         );
     }
 }
