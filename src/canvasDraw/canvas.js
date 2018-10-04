@@ -81,7 +81,7 @@ class Canvas extends Component {
 
     render() {
         return (
-            <div id="canvas-draw">
+            <div id="player-container">
                 <div id="canvas-container">
                     <canvas id="game"></canvas>
                 </div>

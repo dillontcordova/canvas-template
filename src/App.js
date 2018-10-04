@@ -11,10 +11,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div id="player-container">
-          <Canvas renderFps={10} calcFps={60} />
-          
-        </div>
+        <Canvas renderFps={10} calcFps={60} />
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>

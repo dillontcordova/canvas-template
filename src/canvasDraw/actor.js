@@ -10,7 +10,7 @@ export default class Actor {
         this._width = w;
         this._height= h;
 
-        this.docClient = new AWS.DynamoDB.DocumentClient({service: new AWS.DynamoDB({region:'us-west-2'})})
+        this.docClient = new AWS.DynamoDB.DocumentClient({region:'us-west-2', accessKeyId: '', secretAccessKey: ''})
         ActorController.addActor(this);
         ViewController.addView(this, gameObject);
     }
@@ -26,7 +26,9 @@ export default class Actor {
                 }
             };
             
-            this.docClient.post(assetParams, (err, data) => {
+            this.docClient.put(assetParams, (err, data) => {
+                debugger
+                console.log(assetParams)
                 Input.labels = [];
             });
         }
