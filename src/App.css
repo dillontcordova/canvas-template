@@ -6,6 +6,10 @@ body {
   width: 100%;
 }
 
+#canvas-draw{
+  height: inherit;
+}
+
 #player-container{
   width: 100%;
   height: 400px;

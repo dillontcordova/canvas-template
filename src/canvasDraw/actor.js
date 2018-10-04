@@ -1,5 +1,7 @@
 import ActorController from './actorController';
 import ViewController from './viewController';
+import Input from './input';
+import AWS from 'aws-sdk';
 export default class Actor {
 
     constructor( x, y, w, h, gameObject ){
@@ -8,12 +10,26 @@ export default class Actor {
         this._width = w;
         this._height= h;
 
+        this.docClient = new AWS.DynamoDB.DocumentClient({service: new AWS.DynamoDB({region:'us-west-2'})})
         ActorController.addActor(this);
         ViewController.addView(this, gameObject);
     }
 
     tick = (_actors) => {
-        // console.log('tick');
+        // http request
+        if(Input.labels.length){
+            const assetParams = {
+                TableName: 'labels',
+                Item: {
+                    id: '1234567890',
+                    labels: Input.labels
+                }
+            };
+            
+            this.docClient.post(assetParams, (err, data) => {
+                Input.labels = [];
+            });
+        }
 	};
 
     get x(){return this._x;}

@@ -3,16 +3,17 @@ let instance = null;
 
 export default class Game {
 
-    static jsonPathList = [/*'./actorMetadata/coinTest.json', './actorMetadata/orangeRobot.json', */'./actorMetadata/roboSpeaking.json'];
+    static SSJsonPathList = null;
     static gameObjects  = [];
     static canvas = null;
     static ctx = null;
 
-    constructor( _canvas, _ctx ){
+    constructor( _sSJsonPathList, _canvas, _ctx ){
         if( instance ){throw new Error('Can not instantiate a singleton class twice');}
         instance = this;
         Game.ctx = _ctx;
         Game.canvas = _canvas;
+        Game.SSJsonPathList = _sSJsonPathList;
     }
 
     static getInstance = () => {
@@ -23,11 +24,11 @@ export default class Game {
     }
 
     static setJsonPathList = (_jsonPathList) => {
-        Game.jsonPathList = _jsonPathList;
+        Game.SSJsonPathList = _jsonPathList;
     }
 
     static createGameObjects = ( cb ) => {
-        Promise.all( Game.jsonPathList.map( jsonPath => {
+        Promise.all( Game.SSJsonPathList.map( jsonPath => {
             return Game.readTextFile( jsonPath );
         }))
         .then( jsonMetaList => {
@@ -37,8 +38,8 @@ export default class Game {
             .then( gameObjects => {
                 Game.gameObjects = gameObjects;
                 gameObjects.forEach( gameObj => {
-                    const actorWidth = 20;
-                    const actorHeight = 20;
+                    const actorWidth = 30;
+                    const actorHeight = 30;
                     const startX = Game.canvas.width/2 - actorWidth/2;
 
                     new Actor( startX, gameObj.meta.startingY, actorWidth, actorHeight, gameObj );

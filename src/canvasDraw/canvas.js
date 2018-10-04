@@ -3,6 +3,7 @@ import ViewController from './viewController';
 import ActorController from './actorController';
 import Input from './input';
 import Game from './Game';
+import AiRead from './aiRead';
 
 class Canvas extends Component {
 
@@ -11,7 +12,7 @@ class Canvas extends Component {
 
         this.defaults = {
             render      : 60,
-            calc        : 120,
+            calc        : 2,
             width       : 512,
             height      : 256,
             isRunning   : true,
@@ -65,21 +66,29 @@ class Canvas extends Component {
         const canvas= document.getElementById("game");
         this.ctx    = canvas.getContext("2d");
 
-        new Game( canvas , this.ctx );
-        new Input( canvas );
-        new ViewController( this.ctx, this.width, this.height );
-        new ActorController( /*input*/ );
+        new AiRead().read( './aiData.json', (err, data) => {
+            new Game( ['./actorMetadata/roboSpeaking.json'], canvas , this.ctx );
+            new Input( canvas );
+            new ViewController( this.ctx, this.width, this.height );
+            new ActorController( /*input*/ );
 
-        Game.createGameObjects((err, data) => {
-            this.renderLoop();
-            this.calcLoop();
+            Game.createGameObjects((err, data) => {
+                this.renderLoop();
+                this.calcLoop();
+            });
         });
     }
 
     render() {
         return (
-            <div id="canvas-container">
-                <canvas id="game"></canvas>
+            <div id="canvas-draw">
+                <div id="canvas-container">
+                    <canvas id="game"></canvas>
+                </div>
+                <video id="videoGamePlayer" controls="controls" poster="http://www.html5videoplayer.net/poster/toystory.jpg">
+                    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type="video/mp4"/>
+                    <img alt="HTML5 MP4/H.264 Video" src="http://www.html5videoplayer.net/poster/toystory.jpg" title="No video playback capabilities, please download the video below"/>
+                </video>
             </div>
         );
     }
